@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Robot;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.hardware.bosch.BNO055IMU;
@@ -43,30 +44,34 @@ public class Drivetrain extends RobotPart {
 	@Override
 	protected void driverUpdate() {
 		if (gamepad != null) {
-			double leftPower = gamepad.left_stick_y - gamepad.right_stick_x;
-			double rightPower = -gamepad.left_stick_y - gamepad.right_stick_x;
-			double strafePower = gamepad.left_stick_x;
+			double leftPower = -gamepad.left_stick_y + gamepad.right_stick_x;
+			double rightPower = gamepad.left_stick_y + gamepad.right_stick_x;
+			double strafePower = -gamepad.left_stick_x;
 			topLeft.setSpeed(leftPower - strafePower);
-			topRight.setSpeed(rightPower - strafePower);
+			topRight.setSpeed(rightPower * 1.1 - strafePower);
 			bottomLeft.setSpeed(leftPower + strafePower);
-			bottomRight.setSpeed(rightPower + strafePower);
+			bottomRight.setSpeed(rightPower * 1.1 + strafePower);
 		}
 	}
 
 	public void setTopLeft(DcMotor.RunMode mode, DcMotor ... motors) {
 		topLeft = new HardwareController(mode, motors);
+		topLeft.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
 	}
 
 	public void setTopRight(DcMotor.RunMode mode, DcMotor ... motors) {
 		topRight = new HardwareController(mode, motors);
+		topRight.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
 	}
 
 	public void setBottomLeft(DcMotor.RunMode mode, DcMotor ... motors) {
 		bottomLeft = new HardwareController(mode, motors);
+		bottomLeft.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
 	}
 
 	public void setBottomRight(DcMotor.RunMode mode, DcMotor ... motors) {
 		bottomRight = new HardwareController(mode, motors);
+		bottomRight.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
 	}
 
 	public enum ControlType {

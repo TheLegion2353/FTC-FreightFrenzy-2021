@@ -17,10 +17,10 @@ public class MainTeleOp extends OpMode {
 	@Override
 	public void init() {
 		drive = new Drivetrain(Drivetrain.ControlType.ARCADE, gamepad1, telemetry);
-		drive.setTopRight(DcMotorEx.RunMode.RUN_USING_ENCODER, hardwareMap.get(DcMotorEx.class, "topRightDrive"));
-		drive.setTopLeft(DcMotorEx.RunMode.RUN_USING_ENCODER, hardwareMap.get(DcMotorEx.class, "topLeftDrive"));
-		drive.setBottomRight(DcMotorEx.RunMode.RUN_USING_ENCODER, hardwareMap.get(DcMotorEx.class, "backRightDrive"));
-		drive.setBottomLeft(DcMotorEx.RunMode.RUN_USING_ENCODER, hardwareMap.get(DcMotorEx.class, "backLeftDrive"));
+		drive.setTopRight(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER, hardwareMap.get(DcMotorEx.class, "topRightDrive"));
+		drive.setTopLeft(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER, hardwareMap.get(DcMotorEx.class, "topLeftDrive"));
+		drive.setBottomRight(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER, hardwareMap.get(DcMotorEx.class, "backRightDrive"));
+		drive.setBottomLeft(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER, hardwareMap.get(DcMotorEx.class, "backLeftDrive"));
 	}
 
 	@Override
