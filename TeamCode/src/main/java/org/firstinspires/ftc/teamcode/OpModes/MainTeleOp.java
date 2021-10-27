@@ -21,6 +21,7 @@ public class MainTeleOp extends OpMode {
 		drive.setTopLeft(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER, hardwareMap.get(DcMotorEx.class, "topLeftDrive"));
 		drive.setBottomRight(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER, hardwareMap.get(DcMotorEx.class, "backRightDrive"));
 		drive.setBottomLeft(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER, hardwareMap.get(DcMotorEx.class, "backLeftDrive"));
+		telemetry.update();
 	}
 
 	@Override

@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Robot;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -20,7 +21,7 @@ public class Robot {
 	private Telemetry telemetry = null;
 	private boolean isWaiting = false;
 	private double endTime = 0;
-	double xPosition = 0; //inches
+	double xPosition = 0;  // inches
 	double yPosition = 0;
 	double angle = 0;
 
@@ -40,19 +41,19 @@ public class Robot {
 		clock.reset();
 	}
 
-	public void setTopLeft(DcMotor ... motors) {
-		mecanum.setTopLeft(DcMotor.RunMode.RUN_WITHOUT_ENCODER, motors);
+	public void setTopLeft(DcMotorEx ... motors) {
+		mecanum.setTopLeft(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER, motors);
 	}
 
-	public void setTopRight(DcMotor ... motors) {
-		mecanum.setTopRight(DcMotor.RunMode.RUN_WITHOUT_ENCODER, motors);
+	public void setTopRight(DcMotorEx ... motors) {
+		mecanum.setTopRight(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER, motors);
 	}
 
-	public void setBottomLeft(DcMotor ... motors) {
-		mecanum.setBottomLeft(DcMotor.RunMode.RUN_WITHOUT_ENCODER, motors);
+	public void setBottomLeft(DcMotorEx ... motors) {
+		mecanum.setBottomLeft(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER, motors);
 	}
 
-	public void setBottomRight(DcMotor ... motors) {
-		mecanum.setBottomRight(DcMotor.RunMode.RUN_WITHOUT_ENCODER, motors);
+	public void setBottomRight(DcMotorEx ... motors) {
+		mecanum.setBottomRight(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER, motors);
 	}
 }

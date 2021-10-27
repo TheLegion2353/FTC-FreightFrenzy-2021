@@ -14,31 +14,38 @@ import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.har
 
 
 public class Drivetrain extends RobotPart {
+	private final double freeKP = 0.00085;
+	private final double freeKI = 0.0;
+	private final double freeKD = 0.0;
+	private final double chainedKP = 0.0005;
+	private final double chainedKI = 0.0;
+	private final double chainedKD = 0.0;
+
 	private ElapsedTime clock = null;
 	private ControlType control;
-	private HardwareController topRight = null;
-	private HardwareController topLeft = null;
-	private HardwareController bottomRight = null;
-	private HardwareController bottomLeft = null;
+	private HardwareControllerEx topRight = null;
+	private HardwareControllerEx topLeft = null;
+	private HardwareControllerEx bottomLeft = null;
+	private HardwareControllerEx bottomRight = null;
 	private Telemetry telemetry = null;
 
 	public Drivetrain(ControlType ct, Gamepad gp, Telemetry t) {
 		super(gp);
 		telemetry = t;
 		control = ct;
-		topLeft = new HardwareController();
-		topRight = new HardwareController();
-		bottomLeft = new HardwareController();
-		bottomRight = new HardwareController();
+		topLeft = new HardwareControllerEx();
+		topRight = new HardwareControllerEx();
+		bottomLeft = new HardwareControllerEx();
+		bottomRight = new HardwareControllerEx();
 	}
 
 	public Drivetrain(ControlType ct, Gamepad gp) {
 		super(gp);
 		control = ct;
-		topLeft = new HardwareController();
-		topRight = new HardwareController();
-		bottomLeft = new HardwareController();
-		bottomRight = new HardwareController();
+		topLeft = new HardwareControllerEx();
+		topRight = new HardwareControllerEx();
+		bottomLeft = new HardwareControllerEx();
+		bottomRight = new HardwareControllerEx();
 	}
 
 	@Override
@@ -47,30 +54,30 @@ public class Drivetrain extends RobotPart {
 			double leftPower = -gamepad.left_stick_y + gamepad.right_stick_x;
 			double rightPower = gamepad.left_stick_y + gamepad.right_stick_x;
 			double strafePower = -gamepad.left_stick_x;
-			topLeft.setSpeed(leftPower - strafePower);
-			topRight.setSpeed(rightPower * 1.1 - strafePower);
-			bottomLeft.setSpeed(leftPower + strafePower);
-			bottomRight.setSpeed(rightPower * 1.1 + strafePower);
+			topLeft.setSpeed((leftPower - strafePower) * 1000.0);
+			topRight.setSpeed((rightPower - strafePower) * 1000.0);
+			bottomLeft.setSpeed((leftPower + strafePower) * 1000.0);
+			bottomRight.setSpeed((rightPower + strafePower) * 1000.0);
 		}
 	}
 
-	public void setTopLeft(DcMotor.RunMode mode, DcMotor ... motors) {
-		topLeft = new HardwareController(mode, motors);
+	public void setTopLeft(DcMotorEx.RunMode mode, DcMotorEx ... motors) {
+		topLeft = new HardwareControllerEx(telemetry, mode, new PID1stDerivative(chainedKP, chainedKI, chainedKD, 0.0, telemetry), motors);
 		topLeft.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
 	}
 
-	public void setTopRight(DcMotor.RunMode mode, DcMotor ... motors) {
-		topRight = new HardwareController(mode, motors);
+	public void setTopRight(DcMotorEx.RunMode mode, DcMotorEx ... motors) {
+		topRight = new HardwareControllerEx(telemetry, mode, new PID1stDerivative(freeKP, freeKI, freeKD, 0.0, telemetry), motors);
 		topRight.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
 	}
 
-	public void setBottomLeft(DcMotor.RunMode mode, DcMotor ... motors) {
-		bottomLeft = new HardwareController(mode, motors);
+	public void setBottomLeft(DcMotorEx.RunMode mode, DcMotorEx ... motors) {
+		bottomLeft = new HardwareControllerEx(telemetry, mode, new PID1stDerivative(chainedKP, chainedKI, chainedKD, 0.0, telemetry), motors);
 		bottomLeft.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
 	}
 
-	public void setBottomRight(DcMotor.RunMode mode, DcMotor ... motors) {
-		bottomRight = new HardwareController(mode, motors);
+	public void setBottomRight(DcMotorEx.RunMode mode, DcMotorEx ... motors) {
+		bottomRight = new HardwareControllerEx(telemetry, mode, new PID1stDerivative(freeKP, freeKI, freeKD, 0.0, telemetry), motors);
 		bottomRight.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
 	}
 
