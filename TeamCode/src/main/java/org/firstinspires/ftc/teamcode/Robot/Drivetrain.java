@@ -14,12 +14,12 @@ import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.har
 
 
 public class Drivetrain extends RobotPart {
-	private final double freeKP = 0.00085;
-	private final double freeKI = 0.0;
-	private final double freeKD = 0.0;
-	private final double chainedKP = 0.0005;
-	private final double chainedKI = 0.0;
-	private final double chainedKD = 0.0;
+	private final double freeKP = 0.00125;
+	private final double freeKI = 0.01;
+	private final double freeKD = 0.000002;
+	private final double chainedKP = 0.00125;
+	private final double chainedKI = 0.01;
+	private final double chainedKD = 0.000002;
 
 	private ElapsedTime clock = null;
 	private ControlType control;
@@ -54,30 +54,30 @@ public class Drivetrain extends RobotPart {
 			double leftPower = -gamepad.left_stick_y + gamepad.right_stick_x;
 			double rightPower = gamepad.left_stick_y + gamepad.right_stick_x;
 			double strafePower = -gamepad.left_stick_x;
-			topLeft.setSpeed((leftPower - strafePower) * 1000.0);
-			topRight.setSpeed((rightPower - strafePower) * 1000.0);
-			bottomLeft.setSpeed((leftPower + strafePower) * 1000.0);
-			bottomRight.setSpeed((rightPower + strafePower) * 1000.0);
+			topLeft.setSpeed((leftPower - strafePower) * 4000.0 * .65);
+			topRight.setSpeed((rightPower - strafePower) * 4000.0);
+			bottomLeft.setSpeed((leftPower + strafePower) * 4000.0 * .65);
+			bottomRight.setSpeed((rightPower + strafePower) * 4000.0);
 		}
 	}
 
 	public void setTopLeft(DcMotorEx.RunMode mode, DcMotorEx ... motors) {
-		topLeft = new HardwareControllerEx(telemetry, mode, new PID1stDerivative(chainedKP, chainedKI, chainedKD, 0.0, telemetry), motors);
+		topLeft = new HardwareControllerEx(telemetry, mode, new MotorPID(chainedKP, chainedKI, chainedKD, 0.0, telemetry), motors);
 		topLeft.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
 	}
 
 	public void setTopRight(DcMotorEx.RunMode mode, DcMotorEx ... motors) {
-		topRight = new HardwareControllerEx(telemetry, mode, new PID1stDerivative(freeKP, freeKI, freeKD, 0.0, telemetry), motors);
+		topRight = new HardwareControllerEx(telemetry, mode, new MotorPID(freeKP, freeKI, freeKD, 0.0, telemetry), motors);
 		topRight.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
 	}
 
 	public void setBottomLeft(DcMotorEx.RunMode mode, DcMotorEx ... motors) {
-		bottomLeft = new HardwareControllerEx(telemetry, mode, new PID1stDerivative(chainedKP, chainedKI, chainedKD, 0.0, telemetry), motors);
+		bottomLeft = new HardwareControllerEx(telemetry, mode, new MotorPID(chainedKP, chainedKI, chainedKD, 0.0, telemetry), motors);
 		bottomLeft.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
 	}
 
 	public void setBottomRight(DcMotorEx.RunMode mode, DcMotorEx ... motors) {
-		bottomRight = new HardwareControllerEx(telemetry, mode, new PID1stDerivative(freeKP, freeKI, freeKD, 0.0, telemetry), motors);
+		bottomRight = new HardwareControllerEx(telemetry, mode, new MotorPID(freeKP, freeKI, freeKD, 0.0, telemetry), motors);
 		bottomRight.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
 	}
 

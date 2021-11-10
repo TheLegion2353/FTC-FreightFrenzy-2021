@@ -9,6 +9,7 @@ public class PID {
 	public double kP = 0;
 	public double kI = 0;
 	public double kD = 0;
+	protected double eTime = 0.0;
 	protected Telemetry telemetry;
 	protected double errorOverTimeMax = 10;
 	protected double setPoint = 0;
@@ -67,9 +68,9 @@ public class PID {
 	}
 
 	public double PIDLoop(double currentPos) {
-		double time = (double)clock.time(TimeUnit.MILLISECONDS) / 1000.0;
+		eTime = (double)clock.time(TimeUnit.MILLISECONDS) / 1000.0;
 		clock.reset();
-		return PIDLoopInternal(currentPos, time);
+		return PIDLoopInternal(currentPos, eTime);
 	}
 
 	protected double PIDLoopInternal(double currentVal, double elapsedTime) {
@@ -77,7 +78,7 @@ public class PID {
 		calcErrors(currentVal, elapsedTime);
 		processVar += calcP() + calcI() + calcD(elapsedTime);
 		previousError = error;
-		telemetry.addData("Process Var: ", processVar);
+		if (telemetry != null) { telemetry.addData("Process Var: ", processVar); }
 		return processVar;  // process variable is the voltage to be given to the motor or component.
 	}
 
@@ -89,6 +90,10 @@ public class PID {
 		kP = P;
 		kI = I;
 		kD = D;
+	}
+
+	public double getElapsedTime() {
+		return eTime;
 	}
 
 	// these private functions are only used internally to calculate the different values.

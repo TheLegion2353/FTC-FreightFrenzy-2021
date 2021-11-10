@@ -74,11 +74,7 @@ public class HardwareControllerEx {
 		for (int i = 0; i < motors.size(); i++) {
 			if (pids.get(i) != null) {
 				pids.get(i).setSetPoint(s);
-				if (s != 0) {
-					motors.get(i).setPower(pids.get(i).PIDLoop(motors.get(i).getCurrentPosition()));
-				} else {
-					motors.get(i).setPower(0);
-				}
+				motors.get(i).setPower(pids.get(i).PIDLoop(motors.get(i).getCurrentPosition()));
 			} else {
 				motors.get(i).setPower(s);
 			}
@@ -145,6 +141,9 @@ public class HardwareControllerEx {
 		}
 	}
 
+	public PID getPID(int index) {
+		return pids.get(index);
+	}
 	public double getVelocity() {
 		double avrgVel = 0;
 		for (DcMotorEx m : motors) {

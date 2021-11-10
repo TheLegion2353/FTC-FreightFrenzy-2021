@@ -13,19 +13,25 @@ import org.firstinspires.ftc.teamcode.Robot.Robot;
 
 @TeleOp(name="Main Mecanum", group="Driver Controlled")
 public class MainTeleOp extends OpMode {
+	private Robot robot = null;
 	private Drivetrain drive = null;
 	@Override
 	public void init() {
+		robot = new Robot(gamepad1, telemetry);
 		drive = new Drivetrain(Drivetrain.ControlType.ARCADE, gamepad1, telemetry);
 		drive.setTopRight(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER, hardwareMap.get(DcMotorEx.class, "topRightDrive"));
 		drive.setTopLeft(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER, hardwareMap.get(DcMotorEx.class, "topLeftDrive"));
 		drive.setBottomRight(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER, hardwareMap.get(DcMotorEx.class, "backRightDrive"));
 		drive.setBottomLeft(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER, hardwareMap.get(DcMotorEx.class, "backLeftDrive"));
+		robot.setDrivetrain(drive);
+		robot.setCarouselMotor(hardwareMap.get(DcMotorEx.class, "carousel"));
+		robot.setArm(hardwareMap.get(DcMotorEx.class, "arm"), hardwareMap.get(AnalogInput.class, "armPot"));
+		robot.setLinearSlide(hardwareMap.get(DcMotorEx.class, "slide"));
 		telemetry.update();
 	}
 
 	@Override
 	public void loop() {
-		drive.update();
+		robot.update();
 	}
 }

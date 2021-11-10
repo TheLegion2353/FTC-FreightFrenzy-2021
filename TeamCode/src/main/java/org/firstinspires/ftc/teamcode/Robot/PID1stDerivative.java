@@ -4,7 +4,8 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class PID1stDerivative extends PID {
 
-	private double lastPos = 0.0;
+	protected double lastPos = 0.0;
+	protected double currentVel = 0.0;
 
 	public PID1stDerivative(double P, double I, double D, double sp) {
 		super(P, I, D, sp);
@@ -14,13 +15,18 @@ public class PID1stDerivative extends PID {
 		super(P, I, D, sp, telemetry);
 	}
 
+	protected double getVelocity(double currentVal, double elapsedTime) {
+		currentVel = (currentVal - lastPos) / elapsedTime;
+		return currentVel;
+	}
+
 	@Override
 	protected double PIDLoopInternal(double currentVal, double elapsedTime) {
-		double currentVel = (currentVal - lastPos) / elapsedTime;
+
+		telemetry.addData("Velocity: ", getVelocity(currentVal, elapsedTime));
+		telemetry.addData("Set Point: ", setPoint);
+		double returnVal = super.PIDLoopInternal(getVelocity(currentVal, elapsedTime), elapsedTime);
 		lastPos = currentVal;
-		telemetry.addData("Current Velocity: ", currentVel);
-		telemetry.addData("SetPoint", setPoint);
-		telemetry.addData("Current Value: ", currentVal);
-		return super.PIDLoopInternal(currentVel, elapsedTime);
+		return returnVal;
 	}
 }
